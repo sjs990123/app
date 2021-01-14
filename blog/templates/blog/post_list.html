@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+
+    <h1 class="my-4">
+        Blog
+        {% if search_info %} <small class="text-muted"> {{ search_info }}({{  object_list.count}}) </small> {% endif %}
+    </h1>
+    <!-- Blog Post -->
+    {% if object_list.exists %}
+        {% for p in object_list %}
+            <div class="card mb-4">
+                {% if p.head_image %}
+                    <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
+                {% else %}
+                    <img class="card-img-top" src="https://picsum.photos/id/237/750/300" alt="Card image cap">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ p.title }}</h2>
+                    <p class="card-text">{{ p.content | truncatewords:50 }}</p>
+                    <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{ p.created }} by
+                    <a href="#">{{ p.author }}</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>아직 게시물이 없습니다</h2>
+    {% endif %}
+
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-append">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Widget -->
+
+    </div>
+
+{% endblock %}
